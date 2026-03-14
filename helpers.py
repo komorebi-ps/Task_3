@@ -1,0 +1,14 @@
+import string
+import random
+
+def generate_random_string(length):
+
+    letters = string.ascii_lowercase
+    random_string = ''.join(random.choice(letters) for i in range(length))
+    return random_string
+
+
+def random_email():
+    random_part = ''.join(random.choices(string.ascii_lowercase, k=7))
+    email = f"test_{random_part}@ya.ru"
+    return email
