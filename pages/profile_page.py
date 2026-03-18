@@ -11,10 +11,7 @@ class ProfilePage(BasePage):
     @allure.step('Клик на "Личный кабинет" в хедере')
     def click_on_profile_button(self):
 
-        if self.is_firefox():
-            self.click_virt_mouse(HeaderLocators.PROFILE_BUTTON)    
-        else:
-            self.click_on_element(HeaderLocators.PROFILE_BUTTON)
+        self.click_virt_mouse_in_firefox(HeaderLocators.PROFILE_BUTTON)
 
 
     @allure.step('Проверка перехода в личный кабинет')    
@@ -50,10 +47,7 @@ class ProfilePage(BasePage):
     @allure.step('Клик на кнопку "Конструктор"')    
     def click_on_constructor_button(self):
 
-        if self.is_firefox():
-            self.click_virt_mouse(HeaderLocators.CONSTRUCTOR_BUTTON)
-        else:
-            self.click_on_element(HeaderLocators.CONSTRUCTOR_BUTTON)
+        self.click_virt_mouse_in_firefox(HeaderLocators.CONSTRUCTOR_BUTTON)
             
 
     @allure.step('Проверка перехода в Конструктор')        

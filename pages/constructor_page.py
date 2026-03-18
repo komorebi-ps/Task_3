@@ -37,11 +37,7 @@ class ConstructorPage(BasePage):
     @allure.step('Клик на крестик в модальном окне созданного заказа')
     def click_on_order_close_button(self):
 
-        if self.is_firefox():
-            self.click_virt_mouse(ConstructorPageLocators.ORDER_WINDOW_CLOSE_BUTTON)
-        else:
-            self.click_on_element(ConstructorPageLocators.ORDER_WINDOW_CLOSE_BUTTON)
-
+        self.click_virt_mouse_in_firefox(ConstructorPageLocators.ORDER_WINDOW_CLOSE_BUTTON)
 
     @allure.step('Перетаскивание ингредиента в заказ')
     def add_ingredient_to_order(self, ingredients_dict, ingredient_name):    

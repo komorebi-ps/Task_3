@@ -78,14 +78,17 @@ class OrderFeedPage(BasePage):
             OrderFeedLocators.IN_PROCESS_ORDERS_ITEMS, 
             'Все текущие заказы готовы!',
         )
-        except Exception as e:
-            print(f"Сообщение 'Все текущие заказы готовы!' не исчезло: {e}")   
-        # Ждем появления заказов с номерами после того, как исчезло сообщение 
+        except Exception:
+            pass
+
         try:
             self.wait_for_elements_with_digits(OrderFeedLocators.IN_PROCESS_ORDERS_ITEMS)
-        except:
-            print("Заказы с номерами не появились")
-        # Получаем номера заказов из списка "В работе"
+        except Exception as e:
+            allure.attach(
+            f"Заказы с номерами не появились: {type(e).__name__}",
+            name="wait_for_orders_error",
+            attachment_type=allure.attachment_type.TEXT
+            )
         order_numbers = self.extract_order_numbers(
             OrderFeedLocators.IN_PROCESS_ORDERS_LIST,
             OrderFeedLocators.IN_PROCESS_ORDERS_ITEMS,

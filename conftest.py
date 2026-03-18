@@ -8,6 +8,7 @@ from pages.profile_page import ProfilePage
 import requests
 from helpers import generate_random_string, random_email
 from data import user_login_data
+from urls import USER_API_URL, REGISTER_API_URL
 
 
 browser_name = None
@@ -67,16 +68,14 @@ def create_user():
     email = random_email()
     password = generate_random_string(8)
     name = generate_random_string(7)
+    url = REGISTER_API_URL
+    headers = {'Content-Type': 'application/json'}
     payload = {
         "email": email,
         "password": password,
         "name": name
     }
-    response = requests.post(
-        f'{"https://stellarburgers.education-services.ru/api/auth/register"}', 
-        json=payload,
-        headers={'Content-Type': 'application/json'}
-    )
+    response = requests.post(url, json=payload, headers=headers)
     response_data = response.json()
     result_data = {}
     result_data['user'] = response_data.get('user')
@@ -86,7 +85,7 @@ def create_user():
 
     yield result_data 
     if 'accessToken' in response_data and response_data['accessToken']:
-        url = "https://stellarburgers.education-services.ru/api/auth/user"
+        url = USER_API_URL
         headers = {'Content-Type': 'application/json'}
         headers['authorization'] = response_data['accessToken']
         requests.delete(url, headers=headers)

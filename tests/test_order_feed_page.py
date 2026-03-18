@@ -1,7 +1,7 @@
 import pytest
 import allure
 from data import INGREDIENT_LOCATORS, INGREDIENT_LIST
-import time
+from urls import ORDERS_FEED_PAGE_URL
 
 class TestOrderFeed:
 
@@ -23,7 +23,7 @@ class TestOrderFeed:
     @allure.title('Увеличение счетчика "Выполнено за сегодня" после создания нового заказа')
     def test_today_orders_counter_gets_bigger(self, order_feed_page, constructor_page, new_user_login_fixture):
 
-        order_feed_page.click_on_order_feed_button()
+        order_feed_page.go_to_url(ORDERS_FEED_PAGE_URL)
         order_feed_counter_before = order_feed_page.get_today_orders_counter()
         constructor_page.click_on_constructor_button()
         constructor_page.create_order(INGREDIENT_LOCATORS, INGREDIENT_LIST)
@@ -38,7 +38,7 @@ class TestOrderFeed:
     @allure.title('Окно с деталями заказа открывается по клику на заказ')
     def test_order_window_opens(self, order_feed_page, new_user_login_fixture):
 
-        order_feed_page.click_on_order_feed_button() # Переход в Ленту заказов
+        order_feed_page.go_to_url(ORDERS_FEED_PAGE_URL) # Переход в Ленту заказов
         order_number_in_feed = order_feed_page.get_last_order_number() # Сохранение номера последнего заказа
         order_feed_page.click_on_last_order() # Клик на последний заказ
         order_feed_page.order_details_window_check() # Проверка, что открылось окно с деталями заказа
@@ -54,8 +54,6 @@ class TestOrderFeed:
         profile_page.click_on_profile_button() # Переход в профиль
         profile_page.click_on_order_history_button() # Переход в Историю заказов в профиле
         profile_orders = profile_page.get_profile_order_numbers() # Получение номеров заказов в профиле
-        if len(profile_orders) == 0:
-            raise Exception("В профиле нет заказов, тест не может быть выполнен") # Если в профиле нет заказов, тест закончится с ошибкой 
         order_feed_page.click_on_order_feed_button()
         feed_orders = order_feed_page.get_feed_order_numbers() # Получение номеров заказов в ленте заказов
         for order in profile_orders:

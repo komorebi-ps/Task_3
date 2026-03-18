@@ -82,16 +82,12 @@ class BasePage:
         order_numbers = []
         
         for item in order_items:
-            try:
-                # в каждом элементе ищем номер заказа
-                number_element = self.find_child_element(item, number_locator)
-                number = number_element.text
-                order_numbers.append(number)
-                    
-            except Exception as e:
-                # если номер не найден, получаем исключение
-                print(f"Не удалось найти номер в элементе: {e}")
-                continue
+        # Проверяем, есть ли дочерний элемент
+            child_elements = self.find_child_elements(item, number_locator)
+            if child_elements:  # если элемент найден
+                number = child_elements[0].text
+                if number:
+                    order_numbers.append(number)
         
         return order_numbers
     
@@ -103,20 +99,16 @@ class BasePage:
         order_numbers = []
     
         for item in order_items:
-            try:
-                if number_locator and not text_in_element:
-                    # если номер в дочернем элементе
-                    number_element = self.find_child_element(item, number_locator)
-                    text = number_element.text
-                else:
-                    text = item.text
-                    text = text.replace('#0', '')
-            
+
+            if number_locator and not text_in_element:
+                number_element = self.find_child_element(item, number_locator)
+                text = number_element.text
+            else:
+                text = item.text
+                text = text.replace('#0', '').strip()
+        
+            if text:
                 order_numbers.append(text)
-            
-            except Exception as e:
-                print(f"Ошибка: {e}")
-                continue
     
         return order_numbers
 
@@ -179,3 +171,10 @@ class BasePage:
         ),
         message=f"Не найдены элементы с цифрами по локатору {locator}"
         )
+
+    def click_virt_mouse_in_firefox(self, locator):
+        self.wait.until(expected_conditions.element_to_be_clickable(locator))
+        if self.is_firefox():
+            self.click_virt_mouse(locator)
+        else:
+            self.click_on_element(locator)

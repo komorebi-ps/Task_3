@@ -10,7 +10,6 @@ class LoginPage(BasePage):
     @allure.step('Ввод логина (имейла)')
     def fill_email_input(self, email):
 
-        #self.find_element_with_wait(LoginPageLocators.EMAIL_INPUT)
         self.add_text_to_input(LoginPageLocators.EMAIL_INPUT, email)
 
     @allure.title('Ввод пароля')

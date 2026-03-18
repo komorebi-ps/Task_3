@@ -34,13 +34,18 @@ class TestConstructorPage:
         assert modal_window_is_closed
 
 
-    @allure.title('Увеличение каунтера ингредиента при добавлении этого ингредиента в заказ: у булки на 2, у соуса на 1')
-    def test_counter_number_increases(self, constructor_page, user_login_fixture):
+    @allure.title('Увеличение каунтера ингредиента при добавлении этого ингредиента в заказ: у булки на 2')
+    def test_counter_number_increases_bun(self, constructor_page, user_login_fixture):
         
         constructor_page.add_ingredient_to_order(INGREDIENT_LOCATORS, 'bun')
         bun_counter_number = constructor_page.ingredient_counter_check(INGREDIENT_COUNTERS, 'bun')
         assert bun_counter_number == '2'
+
+    @allure.title('Увеличение каунтера ингредиента при добавлении этого ингредиента в заказ: у соуса на 1')
+    def test_counter_number_increases_sauce(self, constructor_page, user_login_fixture):
+        
         constructor_page.add_ingredient_to_order(INGREDIENT_LOCATORS, 'sauce')
         sauce_counter_number = constructor_page.ingredient_counter_check(INGREDIENT_COUNTERS, 'sauce')
         assert sauce_counter_number == '1'
+
 
